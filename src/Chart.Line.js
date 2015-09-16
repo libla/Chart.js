@@ -185,14 +185,16 @@
 				fontStyle : this.options.scaleFontStyle,
 				fontFamily : this.options.scaleFontFamily,
 				valuesCount : labels.length,
-				beginAtZero : this.options.scaleBeginAtZero,
+				maxMinValue : this.options.scaleMaxMinValue,
+				minMaxValue : this.options.scaleMinMaxValue,
 				integersOnly : this.options.scaleIntegersOnly,
 				calculateYRange : function(currentHeight){
 					var updatedRanges = helpers.calculateScaleRange(
 						dataTotal(),
 						currentHeight,
 						this.fontSize,
-						this.beginAtZero,
+						this.maxMinValue,
+						this.minMaxValue,
 						this.integersOnly
 					);
 					helpers.extend(this, updatedRanges);

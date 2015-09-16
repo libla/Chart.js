@@ -13,8 +13,10 @@
 		//String - The colour of the label backdrop
 		scaleBackdropColor : "rgba(255,255,255,0.75)",
 
-		// Boolean - Whether the scale should begin at zero
-		scaleBeginAtZero : true,
+		//Boolean - Whether the scale should start at, or an order of magnitude down from the lowest value
+		scaleMaxMinValue : 0,
+		//Boolean - Whether the scale should end at, or an order of magnitude down from the lowest value
+		scaleMinMaxValue : null,
 
 		//Number - The backdrop padding above & below the label in pixels
 		scaleBackdropPaddingY : 2,
@@ -174,7 +176,8 @@
 					valuesArray,
 					helpers.min([this.chart.width, this.chart.height])/2,
 					this.options.scaleFontSize,
-					this.options.scaleBeginAtZero,
+					this.options.scaleMaxMinValue,
+					this.options.scaleMinMaxValue,
 					this.options.scaleIntegersOnly
 				);
 

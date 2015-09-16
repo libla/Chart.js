@@ -93,8 +93,10 @@
 			// Boolean - Whether the scale should stick to integers, and not show any floats even if drawing space is there
 			scaleIntegersOnly: true,
 
-			// Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-			scaleBeginAtZero: false,
+			//Boolean - Whether the scale should start at, or an order of magnitude down from the lowest value
+			scaleMaxMinValue : null,
+			//Boolean - Whether the scale should end at, or an order of magnitude down from the lowest value
+			scaleMinMaxValue : null,
 
 			// String - Scale label font declaration for the scale label
 			scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
@@ -400,7 +402,7 @@
 		calculateOrderOfMagnitude = helpers.calculateOrderOfMagnitude = function(val){
 			return Math.floor(Math.log(val) / Math.LN10);
 		},
-		calculateScaleRange = helpers.calculateScaleRange = function(valuesArray, drawingSize, textSize, startFromZero, integersOnly){
+		calculateScaleRange = helpers.calculateScaleRange = function(valuesArray, drawingSize, textSize, maxMinValue, minMaxValue, integersOnly){
 
 			//Set a minimum step of two - a point at the top of the graph, and a point at the base
 			var minSteps = 2,
@@ -409,13 +411,18 @@
 
 			var maxValue = max(valuesArray),
 				minValue = min(valuesArray);
+			
+			if (maxMinValue != null && minValue > maxMinValue)
+				minValue = maxMinValue;
+			if (minMaxValue != null && maxValue < minMaxValue)
+				maxValue = minMaxValue;
 
 			// We need some degree of separation here to calculate the scales if all the values are the same
 			// Adding/minusing 0.5 will give us a range of 1.
 			if (maxValue === minValue){
 				maxValue += 0.5;
-				// So we don't end up with a graph with a negative start value if we've said always start from zero
-				if (minValue >= 0.5 && !startFromZero){
+				// So we don't end up with a graph with a start value less than maxMinValue
+				if (maxMinValue == null || minValue >= maxMinValue + 0.5){
 					minValue -= 0.5;
 				}
 				else{
@@ -427,7 +434,7 @@
 			var	valueRange = Math.abs(maxValue - minValue),
 				rangeOrderOfMagnitude = calculateOrderOfMagnitude(valueRange),
 				graphMax = Math.ceil(maxValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude),
-				graphMin = (startFromZero) ? 0 : Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude),
+				graphMin = Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude),
 				graphRange = graphMax - graphMin,
 				stepValue = Math.pow(10, rangeOrderOfMagnitude),
 				numberOfSteps = Math.round(graphRange / stepValue);

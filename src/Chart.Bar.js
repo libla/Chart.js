@@ -7,8 +7,10 @@
 
 
 	var defaultConfig = {
-		//Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-		scaleBeginAtZero : true,
+		//Boolean - Whether the scale should start at, or an order of magnitude down from the lowest value
+		scaleMaxMinValue : 0,
+		//Boolean - Whether the scale should end at, or an order of magnitude down from the lowest value
+		scaleMinMaxValue : null,
 
 		//Boolean - Whether grid lines are shown across the chart
 		scaleShowGridLines : true,
@@ -196,14 +198,16 @@
 				fontStyle : this.options.scaleFontStyle,
 				fontFamily : this.options.scaleFontFamily,
 				valuesCount : labels.length,
-				beginAtZero : this.options.scaleBeginAtZero,
+				maxMinValue : this.options.scaleMaxMinValue,
+				minMaxValue : this.options.scaleMinMaxValue,
 				integersOnly : this.options.scaleIntegersOnly,
 				calculateYRange: function(currentHeight){
 					var updatedRanges = helpers.calculateScaleRange(
 						dataTotal(),
 						currentHeight,
 						this.fontSize,
-						this.beginAtZero,
+						this.maxMinValue,
+						this.minMaxValue,
 						this.integersOnly
 					);
 					helpers.extend(this, updatedRanges);

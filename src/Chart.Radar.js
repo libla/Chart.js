@@ -19,8 +19,10 @@
 			//Boolean - Whether to show labels on the scale
 			scaleShowLabels : false,
 
-			// Boolean - Whether the scale should begin at zero
-			scaleBeginAtZero : true,
+			//Boolean - Whether the scale should start at, or an order of magnitude down from the lowest value
+			scaleMaxMinValue : 0,
+			//Boolean - Whether the scale should end at, or an order of magnitude down from the lowest value
+			scaleMinMaxValue : null,
 
 			//String - Colour of the angle line
 			angleLineColor : "rgba(0,0,0,.1)",
@@ -227,7 +229,8 @@
 					valuesArray,
 					helpers.min([this.chart.width, this.chart.height])/2,
 					this.options.scaleFontSize,
-					this.options.scaleBeginAtZero,
+					this.options.scaleMaxMinValue,
+					this.options.scaleMinMaxValue,
 					this.options.scaleIntegersOnly
 				);
 
